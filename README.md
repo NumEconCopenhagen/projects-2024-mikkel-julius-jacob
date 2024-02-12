@@ -1,9 +1,9 @@
-# \[Group name\]
+# \[Mikkel-Julius_Jacob\]
 
 **Group members:**
-- A
-- B
-- C
+- Mikkel Hennelund
+- Julius Vikjær
+- Jacob Freitag
 
 This repository contains  
 1. Inaugural project. 
