@@ -1,4 +1,4 @@
-# \[Mikkel-Julius_Jacob\]
+# \[Mikkel_Julius_Jacob\]
 
 **Group members:**
 - Mikkel Hennelund
