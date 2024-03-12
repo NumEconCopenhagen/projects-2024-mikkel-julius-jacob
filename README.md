@@ -1,7 +1,7 @@
 # \[Mikkel_Julius_Jacob\]
 
 **Group members:**
-- Mikkel Hennelund
+- Mikkel Hennelund (qcp557)
 - Julius Chrsitan Menne Vikjær (sgv491)
 - Jacob Freitag
 
