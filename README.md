@@ -2,7 +2,7 @@
 
 **Group members:**
 - Mikkel Hennelund
-- Julius Vikjær
+- Julius Chrsitan Menne Vikjær (sgv491)
 - Jacob Freitag
 
 This repository contains  
