@@ -1,7 +1,7 @@
 from types import SimpleNamespace
 
 class ExchangeEconomyClass:
-        def __init__(self):
+    def __init__(self):
 
         par = self.par = SimpleNamespace()
 
