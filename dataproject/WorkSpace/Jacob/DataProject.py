@@ -1,3 +1,10 @@
+import requests
+import pandas as pd
+import matplotlib.pyplot as plt
+import yfinance as yf
+import plotly.express as px
+import plotly.graph_objects as go
+
 def fetch_data(url):
     response = requests.get(url)
     if response.status_code == 200:
