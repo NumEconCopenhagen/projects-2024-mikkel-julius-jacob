@@ -1,14 +1,19 @@
 # Data analysis project
 
-Our project is titled **PROJECT TITLE** and is about EXPLAIN.
+Our project is titled "How does inflation  affect fertility" and is about EXPLAIN.
 
-The **results** of the project can be seen from running [dataproject.ipynb](dataproject.ipynb).
+We want to see how inflation affects the fertility, we have also included Gross Domestic Product as this gives an indication on how the economic situation is in our country
 
-We apply the **following datasets**:
+The final graph of the project can be seen from running [dataproject.ipynb](dataproject.ipynb)., note you can click on the Titles (names Metrics) to exlcude a graph, hold your cursor over a datapoint to see the exact values and last also zoom in.
 
-1. dataX.csv (*source*) 
-1. dataY.csv (*source*)
+Analysis:
+From the graph we can depict that the economic situation in Denmark
+
+
+
 
 **Dependencies:** Apart from a standard Anaconda Python 3 installation, the project requires the following installations:
 
 ``pip install matplotlib-venn``
+Sometimes the data can be tricky to load so you might need to install 
+''pip install nbformat --upgrade''
