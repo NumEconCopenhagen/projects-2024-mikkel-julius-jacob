@@ -3,9 +3,9 @@
 **Group members:**
 - Mikkel Hennelund (qcp557)
 - Julius Chrsitan Menne Vikjær (sgv491)
-- Jacob Freitag
+- Jacob Freitag (fht348)
 
 This repository contains  
 1. Inaugural project. 
 2. Data project. We fetch data from **source x** on **y** and show that ...
-3. Model project. We model ...
+3. Model project. We model 
