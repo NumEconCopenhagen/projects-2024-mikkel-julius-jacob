@@ -1,25 +1,6 @@
 # Model analysis project
+In the IS-LM model, we start by examining the goods market. According to fundamental economic principles, the Gross Domestic Product (GDP) at any specific time (t) comprises household consumption, investment, government spending, and net exports. For this model, we assume a closed economy, indicating the absence of international trade, where the country functions as a self-contained economic system.
 
-Our project is titled **Relationship and Causality between interest rates and inflation in the US** and is about how interest rates and inflation affect each other and about the causality in the relationship. 
+You can observe the results of the project by running the IS-LMModelproject.ipynb notebook.
 
-The **results** of the project can be seen from running [modelproject.ipynb](modelproject.ipynb).
-
-**Dependencies:** Apart from a standard Anaconda Python 3 installation, the project requires the following packages, which can imported as:
-
-import numpy as np
-import pandas as pd
-from datetime import datetime
-import matplotlib
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-from statsmodels.tsa.stattools import adfuller
-from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
-from statsmodels.tsa.api import VAR
-from scipy.stats import pearsonr
-from statsmodels.tsa.statespace.varmax import VARMAX
-from statsmodels.tsa.vector_ar.vecm import coint_johansen
-from statsmodels.stats.diagnostic import acorr_ljungbox, het_breuschpagan
-from statsmodels.stats.stattools import jarque_bera
-from statsmodels.stats.sandwich_covariance import cov_hac_simple
-from sklearn.utils import resample
-from sklearn.linear_model import LinearRegression
+Aside from a standard Anaconda Python 3 installation, no additional packages are required for this project.
