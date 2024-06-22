@@ -6,6 +6,6 @@
 - Jacob Freitag (fht348)
 
 This repository contains  
-1. Inaugural project. 
+1. Inaugural project. SOlving the given problem for the course
 2. Data project. We fetch data from Danmarksstatestik on fertility, GDP and CPI. 
-3. Model project. We model 
+3. Model project. We model  ....
