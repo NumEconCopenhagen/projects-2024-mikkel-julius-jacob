@@ -146,153 +146,53 @@ def question_2_3():
     return new_choices, new_expected_utilities, new_realized_utilities, switch_decisions
 
 
+# Function to generate random points in the unit square
+def generate_random_points(seed=42, num_points=50):
+    np.random.seed(seed)
+    X = np.random.uniform(0, 1, (num_points, 2))
+    y = np.random.uniform(0, 1, (2,))
+    return X, y
 
-# Function for Question 3.1
-def question_3_1():
-    # Set the seed for reproducibility
-    np.random.seed(42)
+# Function to find the closest point in each quadrant
+def find_closest_points(X, y):
+    # Initialize the points A, B, C, D with None
+    A, B, C, D = None, None, None, None
+    min_distances = [np.inf, np.inf, np.inf, np.inf]
 
-    # Generate random points in the unit square
-    X = np.random.uniform(size=(50, 2))
-    y = np.random.uniform(size=(2,))
+    for point in X:
+        x1, x2 = point
+        y1, y2 = y
+        distance = np.linalg.norm(point - y)
 
-    # Function to find the closest point satisfying the condition
-    def find_point(X, y, condition):
-        distances = np.sqrt(np.sum((X - y) ** 2, axis=1))
-        valid_points = X[condition(X, y)]
-        if len(valid_points) == 0:
-            return None
-        return valid_points[np.argmin(distances[condition(X, y)])]
+        if x1 > y1 and x2 > y2:  # Quadrant 1
+            if distance < min_distances[0]:
+                A = point
+                min_distances[0] = distance
+        elif x1 > y1 and x2 < y2:  # Quadrant 2
+            if distance < min_distances[1]:
+                B = point
+                min_distances[1] = distance
+        elif x1 < y1 and x2 < y2:  # Quadrant 3
+            if distance < min_distances[2]:
+                C = point
+                min_distances[2] = distance
+        elif x1 < y1 and x2 > y2:  # Quadrant 4
+            if distance < min_distances[3]:
+                D = point
+                min_distances[3] = distance
 
-    # Conditions for points A, B, C, D
-    condition_A = lambda X, y: (X[:, 0] > y[0]) & (X[:, 1] > y[1])
-    condition_B = lambda X, y: (X[:, 0] > y[0]) & (X[:, 1] < y[1])
-    condition_C = lambda X, y: (X[:, 0] < y[0]) & (X[:, 1] < y[1])
-    condition_D = lambda X, y: (X[:, 0] < y[0]) & (X[:, 1] > y[1])
+    return A, B, C, D
 
-    # Find points A, B, C, D
-    A = find_point(X, y, condition_A)
-    B = find_point(X, y, condition_B)
-    C = find_point(X, y, condition_C)
-    D = find_point(X, y, condition_D)
-
-    # Return points for visualization
-    return X, y, A, B, C, D
-
-# Function for Question 3.2
-def question_3_2(X, y, A, B, C, D):
-    # Function to calculate barycentric coordinates
-    def barycentric_coords(p, a, b, c):
-        denom = (b[1] - c[1]) * (a[0] - c[0]) + (c[0] - b[0]) * (a[1] - c[1])
-        lambda1 = ((b[1] - c[1]) * (p[0] - c[0]) + (c[0] - b[0]) * (p[1] - c[1])) / denom
-        lambda2 = ((c[1] - a[1]) * (p[0] - c[0]) + (a[0] - c[0]) * (p[1] - c[1])) / denom
-        lambda3 = 1 - lambda1 - lambda2
-        return lambda1, lambda2, lambda3
-
-    # Calculate barycentric coordinates for triangles ABC and CDA
-    bary_coords_ABC = barycentric_coords(y, A, B, C) if A is not None and B is not None and C is not None else (None, None, None)
-    bary_coords_CDA = barycentric_coords(y, C, D, A) if C is not None and D is not None and A is not None else (None, None, None)
-
-    # Check if point y is inside triangles ABC or CDA
-    inside_ABC = all(0 <= bc <= 1 for bc in bary_coords_ABC if bc is not None)
-    inside_CDA = all(0 <= bc <= 1 for bc in bary_coords_CDA if bc is not None)
-
-    return bary_coords_ABC, bary_coords_CDA, inside_ABC, inside_CDA
-
-# Function for Question 3.3
-def question_3_3(X, y, A, B, C, D):
-    # Function to calculate barycentric coordinates
-    def barycentric_coords(p, a, b, c):
-        denom = (b[1] - c[1]) * (a[0] - c[0]) + (c[0] - b[0]) * (a[1] - c[1])
-        lambda1 = ((b[1] - c[1]) * (p[0] - c[0]) + (c[0] - b[0]) * (p[1] - c[1])) / denom
-        lambda2 = ((c[1] - a[1]) * (p[0] - c[0]) + (a[0] - c[0]) * (p[1] - c[1])) / denom
-        lambda3 = 1 - lambda1 - lambda2
-        return lambda1, lambda2, lambda3
-
-    # Function to compute f(x, y)
-    def f(x, y):
-        return x**2 + y**2
-
-    # Compute true value of f(y)
-    true_value = f(y[0], y[1])
-
-    # Compute barycentric coordinates for triangles ABC and CDA
-    bary_coords_ABC = barycentric_coords(y, A, B, C) if A is not None and B is not None and C is not None else (None, None, None)
-    bary_coords_CDA = barycentric_coords(y, C, D, A) if C is not None and D is not None and A is not None else (None, None, None)
-
-    # Function to approximate f(y) using barycentric coordinates
-    def approximate_f(bary_coords, vertices):
-        return sum(lambda_i * f(v[0], v[1]) for lambda_i, v in zip(bary_coords, vertices))
-
-    # Approximate f(y) using both triangles ABC and CDA
-    approx_ABC = approximate_f(bary_coords_ABC, [A, B, C]) if None not in bary_coords_ABC else None
-    approx_CDA = approximate_f(bary_coords_CDA, [C, D, A]) if None not in bary_coords_CDA else None
-
-    # Determine which triangle contains y and use that approximation
-    approx_value = None
-    if all(0 <= bc <= 1 for bc in bary_coords_ABC if bc is not None):
-        approx_value = approx_ABC
-    elif all(0 <= bc <= 1 for bc in bary_coords_CDA if bc is not None):
-        approx_value = approx_CDA
-
-    return true_value, approx_value
-
-# Function for Question 3.4
-def question_3_4(X, points_Y):
-    def find_point(X, y, condition):
-        distances = np.sqrt(np.sum((X - y) ** 2, axis=1))
-        valid_points = X[condition(X, y)]
-        if len(valid_points) == 0:
-            return None
-        return valid_points[np.argmin(distances[condition(X, y)])]
+def barycentric_coordinates(P, A, B, C):
+    Px, Py = P
+    Ax, Ay = A
+    Bx, By = B
+    Cx, Cy = C
     
-    def barycentric_coords(p, a, b, c):
-        denom = (b[1] - c[1]) * (a[0] - c[0]) + (c[0] - b[0]) * (a[1] - c[1])
-        lambda1 = ((b[1] - c[1]) * (p[0] - c[0]) + (c[0] - b[0]) * (p[1] - c[1])) / denom
-        lambda2 = ((c[1] - a[1]) * (p[0] - c[0]) + (a[0] - c[0]) * (p[1] - c[1])) / denom
-        lambda3 = 1 - lambda1 - lambda2
-        return lambda1, lambda2, lambda3
+    denominator = (By - Cy) * (Ax - Cx) + (Cx - Bx) * (Ay - Cy)
     
-    def f(x, y):
-        return x**2 + y**2
+    lambda1 = ((By - Cy) * (Px - Cx) + (Cx - Bx) * (Py - Cy)) / denominator
+    lambda2 = ((Cy - Ay) * (Px - Cx) + (Ax - Cx) * (Py - Cy)) / denominator
+    lambda3 = 1 - lambda1 - lambda2
     
-    true_values = []
-    approximated_values = []
-    
-    for y in points_Y:
-        condition_A = lambda X, y: (X[:, 0] > y[0]) & (X[:, 1] > y[1])
-        condition_B = lambda X, y: (X[:, 0] > y[0]) & (X[:, 1] < y[1])
-        condition_C = lambda X, y: (X[:, 0] < y[0]) & (X[:, 1] < y[1])
-        condition_D = lambda X, y: (X[:, 0] < y[0]) & (X[:, 1] > y[1])
-        
-        A = find_point(X, y, condition_A)
-        B = find_point(X, y, condition_B)
-        C = find_point(X, y, condition_C)
-        D = find_point(X, y, condition_D)
-        
-        true_value = f(y[0], y[1])
-        true_values.append(true_value)
-        
-        bary_coords_ABC = barycentric_coords(y, A, B, C) if A is not None and B is not None and C is not None else (None, None, None)
-        bary_coords_CDA = barycentric_coords(y, C, D, A) if C is not None and D is not None and A is not None else (None, None, None)
-        
-        def approximate_f(bary_coords, vertices):
-            return sum(lambda_i * f(v[0], v[1]) for lambda_i, v in zip(bary_coords, vertices))
-        
-        approx_ABC = approximate_f(bary_coords_ABC, [A, B, C]) if None not in bary_coords_ABC else None
-        approx_CDA = approximate_f(bary_coords_CDA, [C, D, A]) if None not in bary_coords_CDA else None
-        
-        approx_value = None
-        if all(0 <= bc <= 1 for bc in bary_coords_ABC if bc is not None):
-            approx_value = approx_ABC
-        elif all(0 <= bc <= 1 for bc in bary_coords_CDA if bc is not None):
-            approx_value = approx_CDA
-        
-        approximated_values.append(approx_value)
-    
-    # Filter out None values
-    valid_indices = [i for i, v in enumerate(approximated_values) if v is not None]
-    true_values = [true_values[i] for i in valid_indices]
-    approximated_values = [approximated_values[i] for i in valid_indices]
-    
-    return true_values, approximated_values
+    return lambda1, lambda2, lambda3
