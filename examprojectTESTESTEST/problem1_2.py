@@ -56,3 +56,32 @@ def market_clearing_conditions(prices, w, par):
     good1_clearing = y1 - c1
     
     return [labor_clearing, good1_clearing]  # Check only two conditions
+
+
+# Given equilibrium prices
+p1 = 0.7475486222511643
+p2 = 0.7411786704525158
+
+# Parameters
+alpha = 0.5
+gamma = 0.5
+A = 1
+w = 1  # numeraire
+
+# Function to calculate optimal labor allocation
+def calculate_l_star(p1, p2, A, gamma, w):
+    ell1_star = (p1 * A * gamma / w) ** (1 / (1 - gamma))
+    ell2_star = (p2 * A * gamma / w) ** (1 / (1 - gamma))
+    return ell1_star, ell2_star
+
+# Function to calculate optimal outputs
+def calculate_y_star(ell1_star, ell2_star, A, gamma):
+    y1_star = A * (ell1_star ** gamma)
+    y2_star = A * (ell2_star ** gamma)
+    return y1_star, y2_star
+
+# Function to calculate profits
+def calculate_profits(p1, p2, A, gamma, w):
+    pi1_star = (1 - gamma) / gamma * w * (p1 * A * gamma / w) ** (1 / (1 - gamma))
+    pi2_star = (1 - gamma) / gamma * w * (p2 * A * gamma / w) ** (1 / (1 - gamma))
+    return pi1_star, pi2_star
