@@ -7,62 +7,52 @@ import pandas as pd
 from scipy.optimize import minimize
 from scipy.optimize import fsolve
 
+	
 # Define parameters
-alpha = 0.3
-nu = 1.0
-epsilon = 2.0
-kappa = 0.1
-gamma = 0.5
-A = 1.0
-p1 = 1.0
-p2 = 1.0
-w = 1.0
-tau_initial_guess = 0.0
-# Function to calculate optimal labor
-def ell_star(p1, p2, tau):
-    ell1 = (p1 * A * gamma / w) ** (1 / (1 - gamma))
-    ell2 = (p2 * A * gamma / w) ** (1 / (1 - gamma))
-    return ell1 + ell2
+par = SimpleNamespace()
+par.A = 1.0
+par.gamma = 0.5
+par.alpha = 0.3
+par.nu = 1.0
+par.epsilon = 2.0
+par.tau = 0.0
+par.T = 0.0
 
-# Function to calculate T given optimal tau
-def calculate_T(optimal_tau):
-    ell_star_val = ell_star(p1, p2, optimal_tau)
-    pi1_star = (1 - gamma) / gamma * w * (p1 * A * gamma / w) ** (1 / (1 - gamma))
-    pi2_star = (1 - gamma) / gamma * w * (p2 * A * gamma / w) ** (1 / (1 - gamma))
+# Define functions
+def optimal_labor(w, p, A, gamma):
+    return (p * A**gamma / w)**(1 / (1 - gamma))
 
-    T = optimal_tau * (1 - alpha) * (w * ell_star_val + pi1_star + pi2_star) / (p2 + optimal_tau)
-    return T
+def optimal_output(A, l, gamma):
+    return A * l**gamma
 
-# Define the objective function (negative SWF to maximize)
-def objective(tau):
-    ell_star_val = ell_star(p1, p2, tau)
-    pi1_star = (1 - gamma) / gamma * w * (p1 * A * gamma / w) ** (1 / (1 - gamma))
-    pi2_star = (1 - gamma) / gamma * w * (p2 * A * gamma / w) ** (1 / (1 - gamma))
+def firm_profit(w, p, A, gamma):
+    return w * (p * A**gamma / w)**(1 - gamma) * (1 - gamma)
 
-    T_val = tau * (1 - alpha) * (w * ell_star_val + pi1_star + pi2_star) / (p2 + tau)
-    c1_star = alpha * (w * ell_star_val + T_val + pi1_star + pi2_star) / p1
-    c2_star = (1 - alpha) * (w * ell_star_val + T_val + pi1_star + pi2_star) / (p2 + tau)
+def consumer_utility(p1, p2, w, T, pi1, pi2, alpha, nu, epsilon):
+    c1 = alpha * (w + T + pi1 + pi2) / p1
+    c2 = (1 - alpha) * (w + T + pi1 + pi2) / (p2 + par.tau)
+    l = ((c1**alpha * c2**(1 - alpha))**(1 / nu))**(1 / (1 + epsilon))
+    return c1, c2, l
 
-    SWF = np.log(c1_star ** alpha * c2_star ** (1 - alpha)) - nu * (ell_star_val ** (1 + epsilon)) / (1 + epsilon) - kappa * c2_star
-    return -SWF  # negative because we are maximizing
-
-# Optimize tau
-result = minimize(objective, tau_initial_guess, method='Nelder-Mead')
-optimal_tau = result.x[0]
-
-# Calculate T using the optimal tau
-optimal_T = calculate_T(optimal_tau)
-
-# Verify the results make sense
-ell_star_val = ell_star(p1, p2, optimal_tau)
-pi1_star = (1 - gamma) / gamma * w * (p1 * A * gamma / w) ** (1 / (1 - gamma))
-pi2_star = (1 - gamma) / gamma * w * (p2 * A * gamma / w) ** (1 / (1 - gamma))
-
-# Compute optimal consumption
-T_val = optimal_tau * (1 - alpha) * (w * ell_star_val + pi1_star + pi2_star) / (p2 + optimal_tau)
-c1_star = alpha * (w * ell_star_val + T_val + pi1_star + pi2_star) / p1
-c2_star = (1 - alpha) * (w * ell_star_val + T_val + pi1_star + pi2_star) / (p2 + optimal_tau)
-
-# Compute SWF
-SWF = np.log(c1_star ** alpha * c2_star ** (1 - alpha)) - nu * (ell_star_val ** (1 + epsilon)) / (1 + epsilon) - kappa * c2_star
-
+# Market clearing conditions
+def market_clearing_conditions(prices, w, par):
+    p1, p2 = prices
+    
+    # Firm 1
+    l1 = optimal_labor(w, p1, par.A, par.gamma)
+    y1 = optimal_output(par.A, l1, par.gamma)
+    pi1 = firm_profit(w, p1, par.A, par.gamma)
+    
+    # Firm 2
+    l2 = optimal_labor(w, p2, par.A, par.gamma)
+    y2 = optimal_output(par.A, l2, par.gamma)
+    pi2 = firm_profit(w, p2, par.A, par.gamma)
+    
+    # Consumer
+    c1, c2, l = consumer_utility(p1, p2, w, par.T, pi1, pi2, par.alpha, par.nu, par.epsilon)
+    
+    # Market clearing
+    labor_clearing = l1 + l2 - l
+    good1_clearing = y1 - c1
+    
+    return [labor_clearing, good1_clearing]  # Check only two conditions
