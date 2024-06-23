@@ -1,8 +1,13 @@
 # Define parameters
-from types import SimpleNamespace
 import numpy as np
+from types import SimpleNamespace
+import seaborn as sns
+import matplotlib.pyplot as plt
 import pandas as pd
+from scipy.optimize import minimize
+from scipy.optimize import fsolve
 
+# Define parameters
 par = SimpleNamespace()
 par.alpha = 1.0
 par.gamma = 0.5
@@ -72,7 +77,7 @@ df_results = pd.DataFrame(results)
 
 # Display DataFrame
 from IPython.display import display
-display(df_results)
+
 
 
 # Define parameters
@@ -129,8 +134,3 @@ initial_guess = [1.0, 1.0]
 
 # Solve for market clearing prices
 solution = fsolve(market_clearing_conditions, initial_guess, args=(1, par))
-
-# Display the solution
-print("Market clearing prices:")
-print(f"p1 = {solution[0]}")
-print(f"p2 = {solution[1]}")
