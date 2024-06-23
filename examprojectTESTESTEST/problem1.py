@@ -58,8 +58,8 @@ def market_clearing(p1, p2, w, par):
     return labor_clearing, good1_clearing, good2_clearing
 
 # Prices
-p1_values = np.linspace(0.1, 2.0, 10)
-p2_values = np.linspace(0.1, 2.0, 10)
+p1_values = np.linspace(0.1,2.0,10)
+p2_values = np.linspace(0.1,2.0,10)
 
 # Check market clearing conditions for each combination of p1 and p2
 results = []
@@ -73,8 +73,3 @@ for p1 in p1_values:
             'good1_clearing': good1_clearing,
             'good2_clearing': good2_clearing
         })
-# Create DataFrame for results
-df_results = pd.DataFrame(results)
-
-# Display DataFrame
-from IPython.display import display
