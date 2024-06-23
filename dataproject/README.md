@@ -1,4 +1,4 @@
-#Fertility and Inflation.
+**Fertility and Inflation.**
 
 Our project is titled "How does inflation  affect fertility" 
 
