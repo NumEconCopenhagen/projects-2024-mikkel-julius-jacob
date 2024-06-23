@@ -17,6 +17,8 @@ A = 1.0
 p1 = 1.0
 p2 = 1.0
 w = 1.0
+# We ignored the .par term in this question
+
 
 tau_initial_guess = 0.0
 # Function to calculate optimal labor
