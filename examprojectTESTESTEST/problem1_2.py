@@ -66,10 +66,3 @@ c2_star = (1 - alpha) * (w * ell_star_val + T_val + pi1_star + pi2_star) / (p2 +
 # Compute SWF
 SWF = np.log(c1_star ** alpha * c2_star ** (1 - alpha)) - nu * (ell_star_val ** (1 + epsilon)) / (1 + epsilon) - kappa * c2_star
 
-# Print results
-print(f"Optimal tau: {optimal_tau}")
-print(f"Implied optimal T: {optimal_T}")
-print(f"Optimal labor (ell*): {ell_star_val}")
-print(f"Optimal consumption c1*: {c1_star}")
-print(f"Optimal consumption c2*: {c2_star}")
-print(f"Social Welfare Function (SWF): {SWF}")

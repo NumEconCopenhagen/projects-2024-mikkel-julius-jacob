@@ -7,6 +7,8 @@ import pandas as pd
 from scipy.optimize import minimize
 from scipy.optimize import fsolve
 
+#q1
+# Define parameters
 par = SimpleNamespace()
 par.alpha = 1.0
 par.gamma = 0.5
@@ -76,9 +78,10 @@ df_results = pd.DataFrame(results)
 
 # Display DataFrame
 from IPython.display import display
-display(df_results)
 
 
+
+#q2
 # Define parameters
 par = SimpleNamespace()
 par.A = 1.0
@@ -134,12 +137,8 @@ initial_guess = [1.0, 1.0]
 # Solve for market clearing prices
 solution = fsolve(market_clearing_conditions, initial_guess, args=(1, par))
 
-# Display the solution
-print("Market clearing prices:")
-print(f"p1 = {solution[0]}")
-print(f"p2 = {solution[1]}")
 
-
+#q3
 # Given equilibrium prices
 p1 = 0.7475486222511643
 p2 = 0.7411786704525158
@@ -185,22 +184,3 @@ T = 0
 c1_star = alpha * (w * ell_star_val + T + pi1_star + pi2_star) / p1
 c2_star = (1 - alpha) * (w * ell_star_val + T + pi1_star + pi2_star) / p2
 
-
-# Print results to check market clearing
-print(f"Optimal labor (ell1*, ell2*): ({ell1_star}, {ell2_star})")
-print(f"Optimal output (y1*, y2*): ({y1_star}, {y2_star})")
-print(f"Implied profits (pi1*, pi2*): ({pi1_star}, {pi2_star})")
-print(f"Total labor supplied (ell*): {ell_star_val}")
-print(f"Optimal consumption (c1*, c2*): ({c1_star}, {c2_star})")
-
-# Tolerance for approximate equality
-tolerance = 1e-2
-
-# Check market clearing conditions
-labor_market_clears = np.abs(ell_star_val - (ell1_star + ell2_star)) < tolerance
-goods_market_1_clears = np.abs(c1_star - y1_star) < tolerance
-goods_market_2_clears = np.abs(c2_star - y2_star) < tolerance
-
-print(f"Labor market clears: {labor_market_clears}")
-print(f"Goods market 1 clears: {goods_market_1_clears}")
-print(f"Goods market 2 clears: {goods_market_2_clears}")
