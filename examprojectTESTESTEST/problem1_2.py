@@ -8,9 +8,9 @@ from scipy.optimize import minimize
 from scipy.optimize import fsolve
 
 # Define parameters
-alpha = 0.5
+alpha = 0.3
 nu = 1.0
-epsilon = 1.0
+epsilon = 2.0
 kappa = 0.1
 gamma = 0.5
 A = 1.0
