@@ -13,7 +13,7 @@ par = SimpleNamespace()
 par.alpha = 1.0
 par.gamma = 0.5
 par.nu = 0.5
-par.epsilon = 1.5
+par.epsilon = 2.0
 par.mu = 1.0
 par.tau = 0.0
 par.A = 1.0
@@ -82,15 +82,6 @@ from IPython.display import display
 
 
 #q2
-# Define parameters
-par = SimpleNamespace()
-par.A = 1.0
-par.gamma = 0.5
-par.alpha = 0.3
-par.nu = 1.0
-par.epsilon = 2.0
-par.tau = 0.0
-par.T = 0.0
 
 # Define functions
 def optimal_labor(w, p, A, gamma):
