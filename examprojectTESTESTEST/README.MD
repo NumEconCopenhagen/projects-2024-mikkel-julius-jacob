@@ -1,6 +1,6 @@
 Our portfolie concists of the Inagural Project, Data Project and the Model Project, as well as out Exam project.
 
-Our Data Project is titled "How does inflation  affect fertility" 
+Our Data Project is titled "How does inflation affect fertility" 
 
 For problem 1 we have created seperate .py files where the question we answered corresponds the the name .py files.
 
